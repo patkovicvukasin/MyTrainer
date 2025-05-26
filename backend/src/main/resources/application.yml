@@ -1,0 +1,34 @@
+security:
+  jwt:
+    secret: gB9zW4uQm5kR8yX3LtJ7pR1sV6nCoX2dUvFrA
+    expiration: 3600000
+CANCELLATION_WINDOW: PT24H
+
+spring:
+  application:
+    name: backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mytrainer_app
+    username: mytrainer_user
+    password: mytrainer_pass
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+
+  mail:
+    host: localhost
+    port: 1025
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
