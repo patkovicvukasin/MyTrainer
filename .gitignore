@@ -9,8 +9,6 @@ spring.log
 
 .env
 
-db
-
 .idea/
 /*.iml
 /*.iws
