@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# MyTrainer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **Aplikacija za trenere i korisnike teretane**
 
-## Available Scripts
+`MyTrainer` je full-stack aplikacija koja omogućava korisnicima da rezervišu i otkažu termine za treninge, a trenerima da upravljaju terminima kroz REST API i web interfejs.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Sadržaj
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. [Funkcionalnosti](#funkcionalnosti)
+2. [Tehnologije](#tehnologije)
+3. [Struktura projekta](#struktura-projekta)
+4. [Instalacija i pokretanje](#instalacija-i-pokretanje)
+5. [Docker Compose](#docker-compose)
+6. [Korišćenje](#korišćenje)
+7. [Contact](#contact)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Funkcionalnosti
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **Rezervacija**: Korisnik može da rezerviše termin (30 ili 60 minuta).
+* **Otkazivanje**: Korisnik može da otkaže rezervaciju najkasnije 24h pre termina.
+* **Pregled termina**: Trener ima dnevni i nedeljni kalendar svih zakazanih termina sa podacima o korisnicima.
+* **Upravljanje terminima**: Trener može da zakazuje i otkazuje termine u ime korisnika.
+* **Autentifikacija**: Trener, kako bi otkazao neki termin, to obavlja putem jedinstvenog koda.
 
-### `npm run build`
+## Tehnologije
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* **Backend**: Java 17, Spring Boot, Spring Data JPA, JWT, Mail
+* **Frontend**: React, React Router, Context API
+* **Baza**: PostgreSQL
+* **Docker**: Docker, Docker Compose
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Struktura projekta
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+MyTrainer/
+├── backend/        # Spring Boot API
+│   ├── src/main/java/com/mytrainer/backend
+│   │   ├── model/      # JPA entiteti
+│   │   ├── repository/ # Spring Data JPA
+│   │   ├── services/   # Biznis logika
+│   │   ├── controllers/# REST API
+│   │   ├── dto
+│   │   ├── scheduling
+│   │   ├── config
+│   │   └── security/   # JWT, CORS, SecurityConfig
+│   ├── Dockerfile
+│   ├── pom.xml
+│   └── .dockerignore
+├── frontend/       # React aplikacija
+│   ├── src/
+│   ├── public/
+│   ├── Dockerfile
+│   └── package.json
+└── docker-compose.yml  # baza, mailhog, backend, frontend
+```
 
-### `npm run eject`
+## Instalacija i pokretanje
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Lokalno bez Docker-a
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Backend**:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   cd backend
+   ./mvnw clean install
+   ./mvnw spring-boot:run
+   ```
+2. **Frontend**:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
 
-## Learn More
+### Portovi
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Backend: `http://localhost:8080`
+* Frontend: `http://localhost:3000`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Docker Compose
 
-### Code Splitting
+U korenu projekta:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+docker compose up -d
+```
 
-### Analyzing the Bundle Size
+Komponente:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* **postgres** (5432)
+* **mailhog** (1025 SMTP, 8025 UI)
+* **backend** (8080)
+* **frontend** (80)
 
-### Making a Progressive Web App
+Zaustavljanje:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+docker compose down
+```
 
-### Advanced Configuration
+## Korišćenje
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. Otvorite frontend (`http://localhost`) ili `http://localhost:3000`.
+2. Rezervišite termin preko korisničkog UI.
+3. Trener se prijavljuje kodom na `/trainer/login`.
+4. U dashboard-u može da vidi, zakazuje i otkazuje termine.
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   
+## Contact
+- **Ime i prezime**: Vukasin Patkovic  
+- **Email**: [vukasinpatkovic@gmail.com](mailto:vukasinpatkovic@gmail.com)  
+- **LinkedIn**: [linkedin.com/in/vukasin-patkovic-7209a7355](https://www.linkedin.com/in/vukasin-patkovic-7209a7355/)  
