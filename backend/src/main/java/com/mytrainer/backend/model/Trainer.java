@@ -3,9 +3,7 @@ package com.mytrainer.backend.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "trainer", schema = "public", indexes = {
-        @Index(name = "trainer_access_code_key", columnList = "access_code", unique = true)
-})
+@Table(name = "trainer", schema = "public", indexes = {@Index(name = "trainer_access_code_key", columnList = "access_code", unique = true)})
 public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +16,7 @@ public class Trainer {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "email", length = 100)
+    @Column(name = "email", length = 100, unique = true)
     private String email;
 
     public Integer getId() {

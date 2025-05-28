@@ -3,12 +3,10 @@ package com.mytrainer.backend.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import com.mytrainer.backend.model.Reservation;
+
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "session", schema = "public")

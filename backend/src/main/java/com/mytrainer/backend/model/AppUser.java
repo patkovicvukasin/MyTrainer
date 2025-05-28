@@ -3,9 +3,7 @@ package com.mytrainer.backend.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "app_user", schema = "public", indexes = {
-        @Index(name = "app_user_phone_key", columnList = "phone", unique = true)
-})
+@Table(name = "app_user", schema = "public", indexes = {@Index(name = "app_user_phone_key", columnList = "phone", unique = true)})
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

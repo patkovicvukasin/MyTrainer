@@ -5,20 +5,20 @@ import java.time.OffsetDateTime;
 public class ReservationResponse {
     private Integer id;
     private Integer sessionId;
-    private String  userName;
-    private String  userPhone;
+    private String userName;
+    private String userPhone;
+    private OffsetDateTime startTime;
     private OffsetDateTime createdAt;
-    private String  status;
+    private String status;
 
-    public ReservationResponse(Integer id, Integer sessionId,
-                               String userName, String userPhone,
-                               OffsetDateTime createdAt, String status) {
-        this.id         = id;
-        this.sessionId  = sessionId;
-        this.userName   = userName;
-        this.userPhone  = userPhone;
-        this.createdAt  = createdAt;
-        this.status     = status;
+    public ReservationResponse(Integer id, Integer sessionId, String userName, String userPhone, OffsetDateTime startTime, OffsetDateTime createdAt, String status) {
+        this.id = id;
+        this.sessionId = sessionId;
+        this.userName = userName;
+        this.userPhone = userPhone;
+        this.startTime = startTime;
+        this.createdAt = createdAt;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -31,6 +31,14 @@ public class ReservationResponse {
 
     public Integer getSessionId() {
         return sessionId;
+    }
+
+    public OffsetDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(OffsetDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public void setSessionId(Integer sessionId) {

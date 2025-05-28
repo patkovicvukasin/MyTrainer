@@ -6,8 +6,10 @@ public class SessionRequest {
     private OffsetDateTime startTime;
     private int duration;
 
-    public SessionRequest(){}
-    public SessionRequest(OffsetDateTime startTime, int duration){
+    public SessionRequest() {
+    }
+
+    public SessionRequest(OffsetDateTime startTime, int duration) {
         this.startTime = startTime;
         this.duration = duration;
     }

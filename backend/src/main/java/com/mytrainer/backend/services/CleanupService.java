@@ -16,7 +16,7 @@ public class CleanupService {
 
     public CleanupService(SessionRepository sessionRepo,
                           ReservationRepository reservationRepo) {
-        this.sessionRepo     = sessionRepo;
+        this.sessionRepo = sessionRepo;
         this.reservationRepo = reservationRepo;
     }
 
