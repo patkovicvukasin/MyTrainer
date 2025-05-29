@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getJSON } from '../../api/api';
+import { getJSON, postJSON } from '../../api/api';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import SessionButton from '../../components/SessionButton';
 import ReservationModal from '../../components/ReservationModal';
@@ -10,10 +10,10 @@ export default function SessionGrid() {
   const { trainerId } = useParams();
   const date = new URLSearchParams(useLocation().search).get('date');
   const [trainerName, setTrainerName] = useState('');
-  const [sessions, setSessions]       = useState([]);
-  const [modalSess, setModalSess]     = useState(null);
-  const [modalNext, setModalNext]     = useState(null);
-  const [message, setMessage]         = useState('');
+  const [sessions, setSessions] = useState([]);
+  const [modalSess, setModalSess] = useState(null);
+  const [modalNext, setModalNext] = useState(null);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     getJSON('/api/trainers')
@@ -48,6 +48,21 @@ export default function SessionGrid() {
 
   const handleConfirm = async ({ session, nextSession, name, phone, email, duration }) => {
     try {
+      await postJSON('/api/reservations', {
+        sessionId: session.id,
+        name,
+        phone,
+        duration
+      });
+
+      setSessions(prev =>
+        prev.filter(s =>
+          duration === 60
+            ? s.id !== session.id && s.id !== nextSession?.id
+            : s.id !== session.id
+        )
+      );
+
       setMessage('Successfully reserved!');
       setModalSess(null);
     } catch (err) {

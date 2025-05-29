@@ -9,9 +9,9 @@ export default function ReservationModal({
   onClose,
   onConfirm
 }) {
-  const [name, setName]       = useState('');
-  const [phone, setPhone]     = useState('');
-  const [email, setEmail]     = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [duration, setDuration] = useState(30);
 
   const handleSubmit = e => {
@@ -27,7 +27,7 @@ export default function ReservationModal({
       <div className="reservation-modal-window">
         <h2 className="reservation-header">Reserve {timeStr}</h2>
         <form onSubmit={handleSubmit} className="reservation-form">
-          
+
           <div className="form-group">
             <label className="form-label"></label>
             <Input
@@ -38,7 +38,7 @@ export default function ReservationModal({
               className="reservation-input"
             />
           </div>
-          
+
           <div className="form-group">
             <label className="form-label"></label>
             <Input
@@ -49,7 +49,7 @@ export default function ReservationModal({
               className="reservation-input"
             />
           </div>
-          
+
           <div className="form-group">
             <label className="form-label"></label>
             <Input
@@ -61,7 +61,7 @@ export default function ReservationModal({
               className="reservation-input"
             />
           </div>
-          
+
           <div className="radio-group">
             <label className="radio-label">
               <input
@@ -80,11 +80,12 @@ export default function ReservationModal({
                 value={60}
                 checked={duration === 60}
                 onChange={() => setDuration(60)}
+                disabled={!nextSession} // onemogućeno ako nema sledeće sesije
               />
               <span>60 min</span>
             </label>
           </div>
-          
+
           <div className="modal-actions">
             <Button type="submit" className="confirm-btn">Confirm</Button>
             <Button type="button" className="cancel-btn" onClick={onClose}>Cancel</Button>

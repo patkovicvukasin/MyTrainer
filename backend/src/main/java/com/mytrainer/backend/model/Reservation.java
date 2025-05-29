@@ -29,6 +29,9 @@ public class Reservation {
     @Column(name = "status", nullable = false)
     private ReservationStatus status;
 
+    @Column(name = "duration", nullable = false)
+    private Integer duration;
+
     public ReservationStatus getStatus() {
         return status;
     }
@@ -76,5 +79,9 @@ public class Reservation {
     public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public Integer getDuration() { return duration; }
+
+    public void setDuration(Integer duration) { this.duration = duration; }
 
 }

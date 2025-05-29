@@ -10,8 +10,9 @@ public class ReservationResponse {
     private OffsetDateTime startTime;
     private OffsetDateTime createdAt;
     private String status;
+    private int duration;
 
-    public ReservationResponse(Integer id, Integer sessionId, String userName, String userPhone, OffsetDateTime startTime, OffsetDateTime createdAt, String status) {
+    public ReservationResponse(Integer id, Integer sessionId, String userName, String userPhone, OffsetDateTime startTime, OffsetDateTime createdAt, String status, int duration) {
         this.id = id;
         this.sessionId = sessionId;
         this.userName = userName;
@@ -19,6 +20,7 @@ public class ReservationResponse {
         this.startTime = startTime;
         this.createdAt = createdAt;
         this.status = status;
+        this.duration = duration;
     }
 
     public Integer getId() {
@@ -75,5 +77,13 @@ public class ReservationResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

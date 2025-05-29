@@ -1,9 +1,6 @@
 package com.mytrainer.backend.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class ReservationRequest {
     @NotNull(message = "Session ID is required")
@@ -16,6 +13,11 @@ public class ReservationRequest {
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be at most 100 characters")
     private String name;
+
+    @NotNull(message = "Duration is required")
+    @Min(value = 30, message = "Duration must be 30 or 60")
+    @Max(value = 60, message = "Duration must be 30 or 60")
+    private Integer duration;    // ← novo polje
 
     public Integer getSessionId() {
         return sessionId;
@@ -39,5 +41,13 @@ public class ReservationRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }

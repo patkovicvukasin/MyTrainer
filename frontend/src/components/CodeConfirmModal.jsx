@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
+import '../styles/index.css';
 
 export default function CodeConfirmModal({ onConfirm, onCancel }) {
   const [code, setCode] = useState('');
@@ -16,9 +17,9 @@ export default function CodeConfirmModal({ onConfirm, onCancel }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
-        <p className="mb-2">Enter your access code to confirm cancellation:</p>
+    <div className="reservation-modal-overlay">
+      <div className="reservation-modal-window">
+        <p>Enter your access code to confirm cancellation:</p>
         <Input
           type="password"
           value={code}
@@ -27,7 +28,7 @@ export default function CodeConfirmModal({ onConfirm, onCancel }) {
         />
         {error && <p className="text-red-600 mt-1">{error}</p>}
         <div className="flex justify-end space-x-2 mt-4">
-          <Button className="bg-gray-500" onClick={onCancel}>No</Button>
+          <Button onClick={onCancel}>No</Button>
           <Button onClick={handleOk}>Yes</Button>
         </div>
       </div>

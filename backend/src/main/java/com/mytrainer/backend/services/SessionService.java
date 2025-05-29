@@ -29,19 +29,39 @@ public class SessionService {
     @Transactional(readOnly = true)
     public List<SessionResponse> getSessions(Trainer trainer, String view, LocalDate date) {
         YearMonth ym = YearMonth.from(date);
-        OffsetDateTime dayStart = date.atStartOfDay().atOffset(ZoneOffset.UTC);
-        if (sessionRepository.findByTrainerAndStartTimeBetween(trainer, dayStart, dayStart.plusDays(1)).isEmpty()) {
+        // koristiti lokalnu zonu Europe/Belgrade
+        ZoneId zone = ZoneId.of("Europe/Belgrade");
+
+        // granice za ceo mesec
+        OffsetDateTime monthStart = ym.atDay(1).atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime monthEnd   = ym.plusMonths(1).atDay(1).atStartOfDay(zone).toOffsetDateTime();
+
+        // ako nema nijednog startTime u tom mesecu, generiši slotove
+        if (sessionRepository.findStartTimesByTrainerAndPeriod(trainer, monthStart, monthEnd).isEmpty()) {
             createMonthlySlots(trainer, ym);
         }
 
-        OffsetDateTime from = date.atStartOfDay().atOffset(ZoneOffset.UTC);
-        OffsetDateTime to = "daily".equalsIgnoreCase(view) ? from.plusDays(1) : from.plusWeeks(1);
+        // dohvat samo dana (daily ili weekly)
+        OffsetDateTime from = date.atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime to   = "daily".equalsIgnoreCase(view) ? from.plusDays(1) : from.plusWeeks(1);
 
-        return sessionRepository.findByTrainerAndStartTimeBetween(trainer, from, to).stream().map(s -> {
-            List<ReservationInfo> infos = s.getReservations().stream().map(r -> new ReservationInfo(r.getId(), r.getUser().getName(), r.getUser().getPhone(), r.getCreatedAt(), r.getStatus().name())).collect(Collectors.toList());
-            return new SessionResponse(s.getId(), s.getStartTime(), s.getDuration(), infos);
-        }).collect(Collectors.toList());
+        return sessionRepository
+                .findByTrainerAndStartTimeBetween(trainer, from, to)
+                .stream()
+                .map(s -> {
+                    List<ReservationInfo> infos = s.getReservations().stream()
+                            .map(r -> new ReservationInfo(
+                                    r.getId(),
+                                    r.getUser().getName(),
+                                    r.getUser().getPhone(),
+                                    r.getCreatedAt(),
+                                    r.getStatus().name()))
+                            .collect(Collectors.toList());
+                    return new SessionResponse(s.getId(), s.getStartTime(), s.getDuration(), infos);
+                })
+                .collect(Collectors.toList());
     }
+
 
     @Transactional
     public SessionResponse createSession(Trainer trainer, SessionRequest req) {
@@ -88,9 +108,10 @@ public class SessionService {
 
     @Transactional
     public void createMonthlySlots(Trainer trainer, YearMonth month) {
-        ZoneId zone = ZoneId.of("UTC");
+        // koristiti lokalnu zonu Europe/Belgrade
+        ZoneId zone = ZoneId.of("Europe/Belgrade");
         OffsetDateTime monthStart = month.atDay(1).atStartOfDay(zone).toOffsetDateTime();
-        OffsetDateTime monthEnd = month.plusMonths(1).atDay(1).atStartOfDay(zone).toOffsetDateTime();
+        OffsetDateTime monthEnd   = month.plusMonths(1).atDay(1).atStartOfDay(zone).toOffsetDateTime();
 
         List<OffsetDateTime> existing = sessionRepository.findStartTimesByTrainerAndPeriod(trainer, monthStart, monthEnd);
         Set<OffsetDateTime> existingSet = new HashSet<>(existing);
